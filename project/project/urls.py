@@ -12,5 +12,5 @@ urlpatterns = [
     path('accounts/login/', auth_views.LoginView.as_view(), name='login' ),
     
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 
-from project.users.models import UserProfile
+from .models import UserProfile
 from .forms import ContactForm, UserProfileForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
 
