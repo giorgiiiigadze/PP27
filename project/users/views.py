@@ -51,6 +51,6 @@ def profile(request):
 
     return render(request, 'users/profile.html', 
                   {'u_form':u_form, 'p_form':p_form})
-
+# pip install pillow 
 
 
