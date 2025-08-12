@@ -19,8 +19,6 @@ def contact_view(request):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
-            # Handle the message here
-            # return redirect('thank_you')
     else:
         form = ContactForm()
     return render(request, 'message/contact.html', {'form': form})
