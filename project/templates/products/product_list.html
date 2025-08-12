@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+</head>
+<body>
+    <h1>Products</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
+            - ${{ product.price }}
+            {% if product.in_stock %}
+            (in stock)
+            {% else %}
+            (out of stock)
+            {% endif %}
+        </li>
+        {% empty %}
+        <li>No product available</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

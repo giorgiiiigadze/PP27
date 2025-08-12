@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head>
+<body>
+    <h1>Add new Product</h1>
+    <form method="post">
+        <!-- csrf token - ramdenjerme shevdzlo requetis gagzavna  -->
+         {% csrf_token %}
+         {{ form.as_p }} 
+         <button type="submit"> add product </button>
+    </form>
+    
+    <a href="{% url 'product_list' %}">back to list page</a>
+</body>
+</html>
