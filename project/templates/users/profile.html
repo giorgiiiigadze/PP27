@@ -9,20 +9,21 @@
 </head>
 <body>
     <h1>PROFILE INFORMATION</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <h3>Account information</h3>
-        {{ u_form.as_p }}
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3>Account information</h3>
+    {{ u_form.as_p }}
 
-        <h3>PROFILE INFORMATION</h3>
-        {{ p_form.as_p }}
-        <button type = 'submit'>Save changes </button>
-    </form>
+    <h3>Profile information</h3>
+    {{ p_form.as_p }}
+    <button type="submit">Save changes</button>
+</form>
+
 
     {% if request.user.userprofile.profile_picture %}
     <img src="{{ request.user.userprofile.profile_picture.url }}" width="150" alt="profile picture">
     {% else %}
-    <img src="project/media/profile_pics/default.jpg" width="150" alt="profile">
+    <img src="/media/profile_pics/default.jpg" width="150" alt="profile">
     {% endif %}
 
     
