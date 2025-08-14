@@ -4,28 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User Profile</title>
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 </head>
 <body>
-    <h1>PROFILE INFORMATION</h1>
-    <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <h3>Account information</h3>
-    {{ u_form.as_p }}
+    <h1>Profile Information</h1>
 
-    <h3>Profile information</h3>
-    {{ p_form.as_p }}
-    <button type="submit">Save changes</button>
-</form>
+    <!-- Profile form -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Account information -->
+        <h3>Account Information</h3>
+        {{ u_form.as_p }}
+
+        <!-- Profile information -->
+        <h3>Profile Information</h3>
+        {{ p_form.as_p }}
+
+        <button type="submit">Save Changes</button>
+    </form>
 
 
     {% if request.user.userprofile.profile_picture %}
-    <img src="{{ request.user.userprofile.profile_picture.url }}" width="150" alt="profile picture">
-    {% else %}
-    <img src="/media/profile_pics/default.jpg" width="150" alt="profile">
-    {% endif %}
+        <img src="{{ request.user.userprofile.profile_picture.url }}" width="150" alt="Profile Picture">
 
-    
+    {% else %}
+        <img src="{% static 'profile_pics/default.jpg' %}" width="150" alt="Default Profile Picture">
+    {% endif %}
 </body>
 </html>
