@@ -12,10 +12,50 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView   
 #     return render(request, 'products/product_list.html', {'products': products})
 
 #  ListView - objectebis listios chveneba 
+from django.db.models import Q
+from django.views.generic import ListView
+from .models import Product
+
 class ProductListView(ListView):
     model = Product
     template_name = 'products/product_list.html'
-    context_object_name = 'products'  # saxeli rasac templateshi gamoviyeneb
+    context_object_name = 'products'
+    paginate_by = 2
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        query = self.request.GET.get('q')
+        category = self.request.GET.get('category')
+        min_price = self.request.GET.get('min_price')
+        max_price = self.request.GET.get('max_price')
+
+        if query:
+            queryset = queryset.filter(Q(name__icontains=query))
+
+        if category:
+            queryset = queryset.filter(category__name=category)
+
+        if min_price:
+            queryset = queryset.filter(price__gte=min_price)
+
+        if max_price:
+            queryset = queryset.filter(price__lte=max_price)
+
+        return queryset
+
+# es methodi damvamate rom pagination da filteringi shetanxmebulad mushaiobdes, leqciaze gaviarot detalurad
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query_params = self.request.GET.copy()
+        if "page" in query_params:   
+            query_params.pop("page")
+        context["query_params"] = query_params.urlencode()
+        return context
+
+
+        
+
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -109,4 +149,7 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
     def get_success_url(self):   #return redirect('product_detail', pk=product.pk)
         return reverse_lazy('product_detail', kwargs = {'pk': self.object.pk} )
     
+
+# --------------------------------------------------------------------------------------
+# paginations 
 

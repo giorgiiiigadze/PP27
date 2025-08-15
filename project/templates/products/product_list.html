@@ -3,24 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product</title>
+    <title>Products</title>
 </head>
 <body>
     <h1>Products</h1>
+
+    <!-- Search & Filter Form -->
+    <form method="get" action="">
+        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
+        <input type="text" name="category" placeholder="Category" value="{{ request.GET.category }}">
+        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
+        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+        <button type="submit">Filter</button>
+    </form>
+
     <ul>
         {% for product in products %}
         <li>
             <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
             - ${{ product.price }}
             {% if product.in_stock %}
-            (in stock)
+                (in stock)
             {% else %}
-            (out of stock)
+                (out of stock)
             {% endif %}
         </li>
         {% empty %}
         <li>No product available</li>
         {% endfor %}
     </ul>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if is_paginated %}
+            <span>
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_previous %}
+                <a href="?{{ query_params }}&page=1">First</a>
+                <a href="?{{ query_params }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <strong>{{ num }}</strong>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?{{ query_params }}&page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?{{ query_params }}&page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?{{ query_params }}&page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+        {% endif %}
+    </div>
 </body>
 </html>
