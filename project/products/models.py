@@ -13,3 +13,4 @@ class Product(models.Model):
     class Meta: #table-is saxeli mxolobitshi 
         verbose_name = 'Product' #mxolobiti
         verbose_name_plural = 'Product' #mravlobiti
+
