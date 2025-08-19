@@ -15,12 +15,14 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView   
 from django.db.models import Q
 from django.views.generic import ListView
 from .models import Product
+from .mixins import QueryParamsMixin
+from django.conf import settings
 
-class ProductListView(ListView):
+class ProductListView(ListView, QueryParamsMixin):
     model = Product
     template_name = 'products/product_list.html'
     context_object_name = 'products'
-    paginate_by = 2
+    paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -42,22 +44,23 @@ class ProductListView(ListView):
         if max_price:
             queryset = queryset.filter(price__lte=max_price)
 
+        # orderingi
+        order_by = self.request.GET.get('order_by')  #price, name, id 
+        if order_by in ['name', '-name', 'price', '-price', 'id', '-id']:
+            queryset = queryset.order_by(order_by)
+        else:
+            queryset = queryset.order_by('id')
         return queryset
 
+
 # es methodi damvamate rom pagination da filteringi shetanxmebulad mushaiobdes, leqciaze gaviarot detalurad
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        query_params = self.request.GET.copy()
-        if "page" in query_params:   
-            query_params.pop("page")
-        context["query_params"] = query_params.urlencode()
-        return context
-
-
-        
-
-
-
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     query_params = self.request.GET.copy()
+    #     if "page" in query_params:   
+    #         query_params.pop("page")
+    #     context["query_params"] = query_params.urlencode()
+    #     return context #mixins
 # --------------------------------------------------------------------------------------------------------
 # DetailView - erti objectis sruli aghwera 
 # def product_detail(request, pk):
@@ -152,4 +155,17 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
 # --------------------------------------------------------------------------------------
 # paginations 
+
+# mixins
+
+# - inheritance = 'is a' relationship - dzaghli aris cxoveli
+# - mixins-  'has a' relationship - dzaghs sheudzlia curva, whama...
+
+
+
+# middlewares
+# client(request) -> middleware -> view -> middleware -> response 
+
+
+# signals - triggers
 

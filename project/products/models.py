@@ -14,3 +14,12 @@ class Product(models.Model):
         verbose_name = 'Product' #mxolobiti
         verbose_name_plural = 'Product' #mravlobiti
 
+
+class ProductLog(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='logs')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True) 
+
+    def __str__(self):
+        return f'log for {self.product.name} : {self.message[:30]}'
+    

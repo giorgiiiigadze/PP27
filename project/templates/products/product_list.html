@@ -14,9 +14,20 @@
         <input type="text" name="category" placeholder="Category" value="{{ request.GET.category }}">
         <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
         <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+
+        <!-- Ordering -->
+        <select name="order_by">
+            <option value="id" {% if request.GET.order_by == "id" %}selected{% endif %}>Default</option>
+            <option value="name" {% if request.GET.order_by == "name" %}selected{% endif %}>Name (A-Z)</option>
+            <option value="-name" {% if request.GET.order_by == "-name" %}selected{% endif %}>Name (Z-A)</option>
+            <option value="price" {% if request.GET.order_by == "price" %}selected{% endif %}>Price (Low → High)</option>
+            <option value="-price" {% if request.GET.order_by == "-price" %}selected{% endif %}>Price (High → Low)</option>
+        </select>
+
         <button type="submit">Filter</button>
     </form>
 
+    <!-- Product List -->
     <ul>
         {% for product in products %}
         <li>
