@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Products</title>
 </head>
 <body>
@@ -10,10 +10,10 @@
 
     <!-- Search & Filter Form -->
     <form method="get" action="">
-        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q }}">
-        <input type="text" name="category" placeholder="Category" value="{{ request.GET.category }}">
-        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
-        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+        <input type="text" name="q" placeholder="Search by name" value="{{ request.GET.q|default:'' }}">
+        <input type="text" name="category" placeholder="Category" value="{{ request.GET.category|default:'' }}">
+        <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price|default:'' }}">
+        <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price|default:'' }}">
 
         <!-- Ordering -->
         <select name="order_by">
@@ -47,9 +47,7 @@
     <!-- Pagination -->
     <div class="pagination">
         {% if is_paginated %}
-            <span>
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-            </span>
+            <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
             {% if page_obj.has_previous %}
                 <a href="?{{ query_params }}&page=1">First</a>
@@ -57,7 +55,7 @@
             {% endif %}
 
             {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
+                {% if num == page_obj.number %}
                     <strong>{{ num }}</strong>
                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                     <a href="?{{ query_params }}&page={{ num }}">{{ num }}</a>

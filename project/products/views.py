@@ -18,7 +18,10 @@ from .models import Product
 from .mixins import QueryParamsMixin
 from django.conf import settings
 
-class ProductListView(ListView, QueryParamsMixin):
+
+# aq iyo problema, gadacemis dros yoveltvis mixinebi unda iyos pirveli da shemdeg view-ebi
+# rogorc magalitad loginrequiredmixin-ze vqenit dabla
+class ProductListView(QueryParamsMixin, ListView):
     model = Product
     template_name = 'products/product_list.html'
     context_object_name = 'products'
