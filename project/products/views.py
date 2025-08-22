@@ -75,6 +75,22 @@ class ProductDetailView(DetailView):
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
 
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        product = self.get_object() # mimdinare productis wamogheba rac naxa
+
+        recent = self.request.session.get('recent_products', [])
+        
+        if product.id not in recent:  # recent aris listi 
+            recent.append(product.id)
+        
+        recent = recent[-6:]  # bolo 5 producti
+        self.request.session['recent_products'] = recent
+        context['recent_products'] = Product.objects.filter(id__in = recent).exclude(id = product.id)
+
+        return context
+
+
 # ---------------------------------------------------------------------------------------------------------------------------
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -91,6 +107,8 @@ from django.urls import reverse_lazy
 #         form = ProductForm()
 #     return render(request, 'products/add_product.html', {'form': form})
 
+from django.contrib import messages
+
 # CreateView - axali objectis sheqmna
 class AddProductView(LoginRequiredMixin, CreateView):
     model = Product
@@ -100,7 +118,10 @@ class AddProductView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+        response =  super().form_valid(form)
+        messages.success(self.request, f'you have added a new product {form.instance.name}')
+        return response
+        
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
@@ -171,4 +192,14 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 
 
 # signals - triggers
+# http - post, delete, get, put ... - sessions - cookie 
+# 4///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+# django messages - etjeradi pasuxebistvis - alert(GAFRTXILEBEBI), MINI-SHETYOBINEBEBI 
+# messages framework - django.contrib.messages
+
+# database-dan wamovigho shetyobinebebi - sheqmenit modeli, romelshic sheinaxavt konkretul shetyobinebebs
+# da roca romeli tipis shetyobineba dagwhirdebat da-get-et eg
+
+# web-sockets- AJAX 
 

@@ -6,18 +6,34 @@
     <title>{{ product.name }}</title>
 </head>
 <body>
+    <!-- Current product -->
     <h1>{{ product.name }}</h1>
-    <p>Price: ${{product.price}}</p>
+    <p>Price: ${{ product.price }}</p>
     <p>Status:
-        {%if product.in_stock%}
-        (in stock)
-        {%else%}
-        (out of stock)
+        {% if product.in_stock %}
+            (in stock)
+        {% else %}
+            (out of stock)
         {% endif %}
-
     </p>
 
     <a href="{% url 'product_list' %}">Back to product list</a>
-    
+
+    <hr>
+
+    <!-- Recently viewed products -->
+    {% if recent_products %}
+        <h2>Recently Viewed</h2>
+        <ul>
+            {% for item in recent_products %}
+                <li>
+                    <a href="{% url 'product_detail' item.id %}">
+                        {{ item.name }} - ${{ item.price }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 </body>
 </html>
