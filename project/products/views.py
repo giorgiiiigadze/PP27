@@ -17,7 +17,7 @@ from django.views.generic import ListView
 from .models import Product
 from .mixins import QueryParamsMixin
 from django.conf import settings
-
+import pdb
 
 # aq iyo problema, gadacemis dros yoveltvis mixinebi unda iyos pirveli da shemdeg view-ebi
 # rogorc magalitad loginrequiredmixin-ze vqenit dabla
@@ -28,7 +28,9 @@ class ProductListView(QueryParamsMixin, ListView):
     paginate_by = settings.PAGINATE_BY
 
     def get_queryset(self):
+        # pdb.set_trace()
         queryset = super().get_queryset()
+
 
         query = self.request.GET.get('q')
         category = self.request.GET.get('category')
@@ -108,11 +110,13 @@ from django.urls import reverse_lazy
 #     return render(request, 'products/add_product.html', {'form': form})
 
 from django.contrib import messages
+from django.core.mail import send_mail
 
 # CreateView - axali objectis sheqmna
 class AddProductView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
+    # print
     template_name = 'products/add_product.html'
     success_url = reverse_lazy('product_list')
 
@@ -120,6 +124,14 @@ class AddProductView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         response =  super().form_valid(form)
         messages.success(self.request, f'you have added a new product {form.instance.name}')
+
+        send_mail(
+            subject='New Product',
+            message=f'a new product was added by {self.request.user.username}',
+            from_email='zaurimeshvildishvili@gmail.com',
+            recipient_list=['ani.maisuradze.1@btu.edu.ge'],
+            fail_silently=False
+        )
         return response
         
 
@@ -202,4 +214,9 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
 # da roca romeli tipis shetyobineba dagwhirdebat da-get-et eg
 
 # web-sockets- AJAX 
+
+# //////////////////////////////////////////////////////////////////////////////////////////////
+# django debugger + mail sending 
+
+# django debugger - pdb;  pdb.set_trace();
 

@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import UserProfile
 from .forms import ContactForm, UserProfileForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
-
+import pdb
 
 def register(request):
     if request.method == 'POST':
@@ -31,6 +31,7 @@ def contact_view(request):
 @login_required
 def profile(request):
     user_profile, created = UserProfile.objects.get_or_create(user =  request.user)
+    breakpoint() # 3.7+ pdb.set_trace()
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance = request.user)
 
@@ -53,4 +54,12 @@ def profile(request):
                   {'u_form':u_form, 'p_form':p_form})
 # pip install pillow 
 
+# smtp 
+# martivia
+
+# TLS- 587 ----- SSL - 465
+# 2fa 
+
+# URL- funqcia(send_mail ) - axali paroli (patch)...
+# OAuth2(client-front mxare)
 
