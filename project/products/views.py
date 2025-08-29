@@ -188,6 +188,18 @@ class AdminUpdateProductView(LoginRequiredMixin, UserPassesTestMixin, UpdateView
     def get_success_url(self):   #return redirect('product_detail', pk=product.pk)
         return reverse_lazy('product_detail', kwargs = {'pk': self.object.pk} )
     
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, f'Product "{form.instance.name}" has been updated successfully.')
+
+        send_mail(
+            subject='Product Updated',
+            message=f'The product "{form.instance.name}" was updated by {self.request.user.username}.',
+            from_email='gio.giorgigiorgadze20@gmail.com',
+            recipient_list=['sophiogiorgadze20@gmail.com'],
+            fail_silently=False
+        )
+        return response    
 
 # --------------------------------------------------------------------------------------
 # paginations 
