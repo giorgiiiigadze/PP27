@@ -128,8 +128,8 @@ class AddProductView(LoginRequiredMixin, CreateView):
         send_mail(
             subject='New Product',
             message=f'a new product was added by {self.request.user.username}',
-            from_email='zaurimeshvildishvili@gmail.com',
-            recipient_list=['ani.maisuradze.1@btu.edu.ge'],
+            from_email='gio.giorgigiorgadze20@gmail.com',
+            recipient_list=['sophiogiorgadze20@gmail.com'],
             fail_silently=False
         )
         return response
