@@ -127,24 +127,41 @@ PAGINATE_BY = 2
 # //////////////////////////////////////////////////////////////////////////////
 from decouple import config
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587 #TLS
 EMAIL_USE_TLS = True
-
 # EMAIL_USE_SSL = True - 465
-
-EMAIL_HOST_USER = config('EMAIL_HOST_USER') #
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# es cadet tu config ar imushavebs
+# pip install django-environ
+
+# import environ
+# env = environ.Env()
+# environ.Env.read_env()
+
+# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# ///////////////////////////////////////////////////////////////////////////////////////////////
 
 # 'django.core.mail.backends.console.EmailBackend'
-
 # spam, 
 # smtpAuthenticatiomnError - app password aar aris swori
 # ConnectionRefusedError - port
 
-# console, view-ebshi template, .env filebi
+
 # //////////////////////////////////////////////////////////////////////////////
+
+# bootstrap - js + css.
+# gamzadebuli design -- shenit rom dawero 
+
+# my -- btn , btn-primary....
+# <button class='btn btn-primary'>
+
+# css dakavshireba ---- js dakavshireba 
+
 
